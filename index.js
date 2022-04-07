@@ -1,43 +1,10 @@
 // TODO: Include packages needed for this application
-const inquirer = require('inquirer')
+const inquirer = require('inquirer');
 const fs = require('fs');
+const generateMarkdown = require('./utils/generateMarkdown')
 
 // TODO: Create an array of questions for user input
-// const questions = [inquirer
-//     .prompt([
-//         {
-//             type: 'input',
-//             message: 'What is your name?',
-//             name: 'fullName'
-//         },
-//         {
-//             type: 'list',
-//             message: 'What languages are you learning?',
-//             name: 'languages',
-//             choices: ['JavaScript', 'Java', 'Python', 'C']
-//         },
-//         {
-//             type: 'checkbox',
-//             message: 'What is your preferred method of contact?',
-//             name: 'contactMethod',
-//             choices: ['email','text','mail','call']
-//         }
-//     ])
-// ];
-
-// TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
-
-// TODO: Create a function to initialize app
-function init() {}
-
-// Function call to initialize app
-init();
-
-// Class material
-
-inquirer
-    .prompt([
+const questions = [
         {
             type: 'input',
             message: 'Please enter a file name:',
@@ -69,37 +36,37 @@ inquirer
             name: 'testing'
         },
         {
-            type: 'choice',
+            type: 'checkbox',
             message: 'Please choose a license:',
             name: 'license',
-            choices: ['MIT', 'GNU GPLv3']
+            choices: ['MIT', 'ISC']
+        },
+        {
+            type: 'input',
+            message: 'Please input your github username:',
+            name: 'github'
+        },
+        {
+            type: 'input',
+            message: 'Please input your email:',
+            name: 'email'
         }
-        
-    ])
+    ]
 
-    .then ((response) => {
-        console.log(response);
+inquirer 
+.prompt(questions).then((answers) => {
+    console.log('ANSWERS ARE ->', answers);
+    const markdown = generateMarkdown(answers)
+    fs.writeFile(`${answers.title}.md`, markdown, (err) => {
+    if (err)
+        console.log(err);
+    else {
+        console.log("File written successfully\n");
+        console.log("The written has the following contents:");
+        console.log(fs.readFileSync(`${answers.title}.md`, "utf8"));
+  }
+});s
+}).catch((err) => {
+    console.log(err);
+})
 
-        const templateLiteral = `# ${response.title}
-        
-## Description
-${response.description}
-
-## Installation Instructions
-${response.installation}
-
-## Usage Information
-${response.usage}
-
-## Contribution Guidelines
-${response.contribution}
-
-## Test Instructions
-${response.testing}
-
-##License
-
-`
-    
-        fs.writeFile(`${response.title}.md`, templateLiteral, (err) => err ? console.log(err) : console.log("Success"))
-    });
