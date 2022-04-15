@@ -35,6 +35,8 @@
 
   to use this program, you must simply open the integrated terminal in the program directory, then enter command: node index.js
 
+  Follow my usage guide here: https://youtu.be/mJChLuAjC7M
+
   ## Contribution Guideline
   
 
